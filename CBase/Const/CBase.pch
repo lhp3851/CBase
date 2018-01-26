@@ -1,0 +1,73 @@
+//
+//  CBase.pch
+//  CBase
+//
+//  Created by Jerry on 26/01/2018.
+//  Copyright © 2018 Jerry. All rights reserved.
+//
+
+#ifndef CBase_pch
+#define CBase_pch
+
+#define MAS_SHORTHAND
+#define MAS_SHORTHAND_GLOBALS
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import "Masonry.h"
+    #import "MJExtension.h"
+    #import "MJRefresh.h"
+    #import "SDWebImageManager.h"
+#pragma mark 自定义库文件
+    #import "ColorHeader.h"
+    #import "FontHeader.h"
+    #import "InterfaceHeader.h"
+    #import "StaticTipsHeader.h"
+    #import "CategoryAndExtensionPre.h"
+#endif
+
+//分开发环境
+#pragma mark 自定义log
+#if defined(DEBUG)||defined(_DEBUG)
+    #define Print(FORMAT, ...)  fprintf(__stderrp,"%s %s:%d\t%s\t%s\n",__TIME__,[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __FUNCTION__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+    #define APP_DISTRI_ENVIROMENT  NO//app开发环境：NO代表开发环境，YES代表发布环境
+#else
+    #define Print(FORMAT, ...)
+    #define APP_DISTRI_ENVIROMENT  YES
+#endif
+
+//不分开发环境
+#pragma mark 屏幕尺寸
+    #define kWINDOW_WIDTH              (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height))
+    #define kWINDOW_HEIGHT             (MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height))
+
+#pragma mark 系统状态信息
+    #define KIOS_VERSION               [[UIDevice currentDevice] systemVersion].floatValue //系统版本
+    #define kAPP_VERSON                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+    //WINDOW
+    #define kTop_Window                [[UIApplication sharedApplication].windows lastObject] //当前window
+    #define kKey_Window                [UIApplication sharedApplication].keyWindow
+    #define kApp_Window                [[UIApplication sharedApplication].delegate performSelector:@selector(window)]
+
+#pragma mark 应用状态信息
+    #define kSTATUS_BAR_HEIGHT         [[UIApplication sharedApplication] statusBarFrame].size.height//状态栏高度
+    #define kNAVIGATION_BAR_HEIGHT     self.navigationController.navigationBar.frame.size.height //导航栏高度
+    #define kTAB_BAR_HEIGHT            self.tabBarController.tabBar.frame.size.height
+
+#pragma mark 尺寸常量
+    #define kHORIZONT_MARGIN           15.0F //默认横向页边距
+    #define kVERTICAL_MARGIN           10.0F //默认横向页边距
+    #define kDEFAULT_STATUS_BAR_HEIGHT 20.0  //默认状态栏高度
+    #define kDEFAULT_BUTTON_HEIGHT     kFitWithHeight(40.0f) //默认按钮高度
+
+#pragma mark 缓存路径
+    #define kIMAGE_DEFALUT_CACEH_PATH  @"image"
+    #define kVEDIO_DEFALUT_CACHE_PATH  @"vedio"
+    #define kFILE_DEFALUT_CACHE_PATH   @"file"
+    #define kLOG_DEFALUT_CACHE_PATH    @"log"
+    #define kSYSTEM_CACHE_PATH         [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]//系统缓存目录
+    #define kDATA_CACHE_PATH           [kSYSTEM_CACHE_PATH stringByAppendingPathComponent:kBundle_Name]//数据缓存根目录
+
+#define kImageName(imageName)       [FileOperationManager imageWithPath:imageName]
+
+#endif
